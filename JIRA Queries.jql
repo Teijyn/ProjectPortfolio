@@ -1,0 +1,61 @@
+## 📌 Tesla JIRA JQL Query Collection
+
+**Goal**  
+To demonstrate effective use of JIRA Query Language (JQL) to support project tracking, issue resolution, and Agile operations within a real-time Tesla manufacturing environment.
+
+**Description**  
+This collection includes beginner to advanced JQL examples that reflect real-world use cases in manufacturing production, tooling deployments, sprint management, and quality control tracking. These queries can power dashboards, filter boards, and status reports for engineering and operations teams.
+
+
+### 🟢 Beginner Level Queries
+
+
+-- All open tickets in a specific project
+project = "Model Y Tooling" AND status = "Open"
+
+-- Tasks assigned to a specific team member
+assignee = jpham AND status != Done
+
+-- Issues created this week
+created >= startOfWeek()
+
+-- Tasks related to torque tool integration
+summary ~ "torque" OR description ~ "torque"
+
+### 🟡 Intermediate Level Queries
+
+
+-- Tickets related to production downtime over past 7 days
+project = "Production Support" AND labels = downtime AND created >= -7d
+
+-- Open bugs affecting final assembly line
+project = "Model 3 Assembly" AND issuetype = Bug AND status in ("Open", "In Progress") AND component = "Final Line"
+
+-- User stories not assigned to any sprint
+project = "Powertrain Ops" AND issuetype = Story AND sprint is EMPTY
+
+-- Issues with attachments (e.g. logs or screenshots)
+attachments is not EMPTY AND created >= -30d
+
+-- Tickets reopened more than once
+status changed TO Reopened BY currentUser() AFTER -30d
+
+
+🔴 Advanced Level Queries
+
+
+-- Blocker issues on tooling projects created in last 14 days
+project in ("Tooling Integration", "Torque Deployment") AND priority = Blocker AND created >= -14d
+
+-- Epics with linked stories still unresolved (requires ScriptRunner)
+issuetype = Epic AND issueFunction in linkedIssuesOf("status != Done", "epic link")
+
+-- Custom field-based query (Production Line 5, Night Shift)
+"Production Line" = "Line 5" AND "Shift" = "Night" AND status != Closed
+
+-- Sprint burndown: Remaining stories in current sprint
+sprint in openSprints() AND issuetype = Story AND resolution = Unresolved
+
+-- Tickets labeled 'hotfix' linked to release issues
+issueLinkType = "relates to" AND labels in (hotfix) AND project = "Firmware Rollout"
+
