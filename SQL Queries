@@ -139,7 +139,7 @@ SELECT part_id,
 FROM inventory_transactions
 GROUP BY part_id;
 
--- 20. Complex query with 9 JOINs: Analyze cross-department performance during high-output production weeks
+-- 20. Analyze cross-department performance during high-output production weeks
 SELECT pd.model, pd.production_date, e.name AS employee_name, e.department, t.tool_id, t.status, 
        d.line_id, d.reason AS downtime_reason, i.part_name, it.transaction_type, it.quantity
 FROM production_data pd
@@ -161,5 +161,3 @@ JOIN (
 ) avg_prod ON pd.model = avg_prod.model
 WHERE pd.quantity_produced > avg_prod.avg_output
   AND pd.production_date >= CURDATE() - INTERVAL 30 DAY;
-
--- END OF REPOSITORY
