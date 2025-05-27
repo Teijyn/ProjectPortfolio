@@ -96,7 +96,7 @@ INNER JOIN (
     SELECT DISTINCT tool_id FROM tooling_logs WHERE error_code IS NOT NULL
 ) e ON t.tool_id = e.tool_id;
 
--- 14. Query within a query (subquery): List employees who work in departments with more than 5 people
+-- 14. Subquery: List employees who work in departments with more than 5 people
 SELECT name, role, department
 FROM employees
 WHERE department IN (
